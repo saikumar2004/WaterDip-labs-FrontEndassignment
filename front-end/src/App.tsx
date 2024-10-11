@@ -30,13 +30,13 @@ const App: React.FC = () => {
     }
   }, [startDate, endDate]);
   const processChartData = (data: any[]) => {
-    // Time Series Chart Data
+    
     const timeSeriesData = data.map((booking) => ({
       x: `${booking.arrival_date_year}-${booking.arrival_date_month}-${booking.arrival_date_day_of_month}`,
       y: Number(booking.adults) + Number(booking.children) + Number(booking.babies),
     }));
 
-    // Column Chart Data (Number of visitors per country)
+    
     const columnChartData = data.reduce((acc: any, booking: any) => {
       const country = booking.country;
       const totalVisitors = Number(booking.adults) + Number(booking.children) + Number(booking.babies);
@@ -53,7 +53,7 @@ const App: React.FC = () => {
       y: columnChartData[country],
     }));
 
-    // Sparkline Data
+    
     const sparklineAdults = data.map((booking) => Number(booking.adults));
     const sparklineChildren = data.map((booking) => Number(booking.children));
 
@@ -76,7 +76,7 @@ const App: React.FC = () => {
       </div>
 
       <div>
-        {/* Time Series Chart */}
+        <h1>Time Series Chart </h1>
         <ApexCharts
           options={{
             chart: { id: "time-series-chart" },
@@ -87,7 +87,7 @@ const App: React.FC = () => {
           height={300}
         />
 
-        {/* Column Chart */}
+        <h1>Column Chart </h1>
         <ApexCharts
           options={{
             chart: { id: "column-chart" },
@@ -99,7 +99,7 @@ const App: React.FC = () => {
           height={300}
         />
 
-        {/* Sparkline Charts */}
+        <h1>Sparkline Charts </h1>
         <div>
           <ApexCharts
             options={{ chart: { type: "line" }, stroke: { curve: "smooth" } }}
