@@ -101,17 +101,20 @@ const App: React.FC = () => {
 
         <h1>Sparkline Charts </h1>
         <div>
+        <h3>Sparkline Charts for Adults</h3>
+
           <ApexCharts
             options={{ chart: { type: "line" }, stroke: { curve: "smooth" } }}
             series={[{ data: chartData.sparklineAdults }]}
             type="line"
-            height={100}
+            height={300}
           />
+          <h3>Sparkline Charts for Childers</h3>
           <ApexCharts
             options={{ chart: { type: "line" }, stroke: { curve: "smooth" } }}
             series={[{ data: chartData.sparklineChildren }]}
             type="line"
-            height={100}
+            height={300}
           />
         </div>
       </div>
