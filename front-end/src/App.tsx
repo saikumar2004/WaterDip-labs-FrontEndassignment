@@ -5,19 +5,20 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const App: React.FC = () => {
-    const [startDate, setStartDate] = useState<Date | null>(new Date("2015-07-01"));
+  const [startDate, setStartDate] = useState<Date | null>(new Date("2015-07-01"));
   const [endDate, setEndDate] = useState<Date | null>(new Date("2015-07-10"));
   const [data, setData] = useState<any[]>([]);
-  const [chartData, setChartData] = useState({
+  const [chartData, setChartData] = useState<ChartData>({
     timeSeries: [],
     columnChart: [],
     sparklineAdults: [],
     sparklineChildren: [],
   });
+
   useEffect(() => {
     if (startDate && endDate) {
       axios
-        .get("https://waterdip-labs-frontendassignment.onrender.com/api/bookings", {
+        .get("http://localhost:5000/api/bookings", {
           params: {
             startDate: startDate.toISOString(),
             endDate: endDate.toISOString(),
@@ -29,6 +30,15 @@ const App: React.FC = () => {
         });
     }
   }, [startDate, endDate]);
+  type ChartSeries = { x: string; y: number }[];
+
+type ChartData = {
+  timeSeries: ChartSeries;
+  columnChart: ChartSeries;
+  sparklineAdults: number[];
+  sparklineChildren: number[];
+};
+
   const processChartData = (data: any[]) => {
     
     const timeSeriesData = data.map((booking) => ({
@@ -70,13 +80,22 @@ const App: React.FC = () => {
       <h1>Hotel Booking Dashboard</h1>
       <div>
         <label>Start Date: </label>
-        <DatePicker selected={startDate} onChange={(date: Date) => setStartDate(date)} />
+        <DatePicker 
+  selected={startDate} 
+  onChange={(date: Date | null) => date && setStartDate(date)} 
+/>
+
+
+
         <label>End Date: </label>
-        <DatePicker selected={endDate} onChange={(date: Date) => setEndDate(date)} />
+        <DatePicker 
+  selected={endDate} 
+  onChange={(date: Date | null) => date && setEndDate(date)} 
+/>
       </div>
 
       <div>
-        <h1>Time Series Chart </h1>
+      <h1>Time Series Chart </h1>
         <ApexCharts
           options={{
             chart: { id: "time-series-chart" },
@@ -84,10 +103,10 @@ const App: React.FC = () => {
           }}
           series={[{ data: chartData.timeSeries }]}
           type="line"
-          height={200}
+          height={300}
         />
 
-        <h1>Column Chart </h1>
+<h1>Column Chart </h1>
         <ApexCharts
           options={{
             chart: { id: "column-chart" },
@@ -96,31 +115,29 @@ const App: React.FC = () => {
           }}
           series={[{ data: chartData.columnChart }]}
           type="bar"
-          height={200}
+          height={300}
         />
 
-        <h1>Sparkline Charts </h1>
+<h1>Sparkline Charts </h1>
         <div>
         <h3>Sparkline Charts for Adults</h3>
-
           <ApexCharts
             options={{ chart: { type: "line" }, stroke: { curve: "smooth" } }}
             series={[{ data: chartData.sparklineAdults }]}
             type="line"
-            height={300}
+            height={100}
           />
-          <h3>Sparkline Charts for Childers</h3>
+           <h3>Sparkline Charts for Childers</h3>
           <ApexCharts
             options={{ chart: { type: "line" }, stroke: { curve: "smooth" } }}
             series={[{ data: chartData.sparklineChildren }]}
             type="line"
-            height={300}
+            height={100}
           />
         </div>
       </div>
     </div>
   );
- 
 };
 
 export default App;

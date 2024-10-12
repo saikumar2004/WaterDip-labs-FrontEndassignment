@@ -14,7 +14,7 @@ fs.createReadStream('hotel_booking.csv')
   .pipe(csv())
   .on('data', (row) => {
     bookingsData.push(row); 
-    console.log(row);
+    
   })
   .on('end', () => {
     console.log('file successfully loading');
