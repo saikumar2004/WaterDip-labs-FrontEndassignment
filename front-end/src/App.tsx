@@ -17,7 +17,7 @@ const App: React.FC = () => {
   useEffect(() => {
     if (startDate && endDate) {
       axios
-        .get("http://localhost:5000/api/bookings", {
+        .get("https://waterdip-labs-frontendassignment.onrender.com/api/bookings", {
           params: {
             startDate: startDate.toISOString(),
             endDate: endDate.toISOString(),
@@ -84,7 +84,7 @@ const App: React.FC = () => {
           }}
           series={[{ data: chartData.timeSeries }]}
           type="line"
-          height={300}
+          height={200}
         />
 
         <h1>Column Chart </h1>
@@ -96,7 +96,7 @@ const App: React.FC = () => {
           }}
           series={[{ data: chartData.columnChart }]}
           type="bar"
-          height={300}
+          height={200}
         />
 
         <h1>Sparkline Charts </h1>
