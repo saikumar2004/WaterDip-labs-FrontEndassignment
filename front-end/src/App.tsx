@@ -95,6 +95,9 @@ const App: React.FC = () => {
         <ApexCharts
           options={{
             theme: { mode: 'dark' },
+            tooltip:{
+              followCursor:true
+            },
             chart: { id: "time-series-chart" },
             xaxis: { type: "datetime", title: { text: 'Date', style: { color: '#0f0' } } },
             yaxis: { title: { text: 'Numbers of visitors', style: { color: '#0f0' } } },
@@ -109,6 +112,9 @@ const App: React.FC = () => {
         <ApexCharts
           options={{
             theme: { mode: 'dark' },
+            tooltip:{
+              followCursor:true
+            },
             chart: { id: "column-chart" },
             xaxis: { type: "category", title: { text: 'Country', style: { color: '#0f0' } } },
             yaxis: { title: { text: 'Number of visitors per country', style: { color: '#0f0' } } },
@@ -129,7 +135,13 @@ const App: React.FC = () => {
               {chartData.sparklineAdults.reduce((a, b) => a + b, 0).toLocaleString()}
             </p>
             <ApexCharts
-              options={{ chart: { type: "line", sparkline: { enabled: true } }, stroke: { curve: "smooth" }, colors: ['#3B82F6'] }}
+              options={{ chart: { type: "line", sparkline: { enabled: true } }, tooltip:{
+                y:{
+                    formatter:(val)=>{
+                        return `$${val}`
+                    }
+                }
+            },stroke: { curve: "smooth" }, colors: ['#3B82F6'] }}
               series={[{ data: chartData.sparklineAdults }]}
               type="line"
               height={100}
@@ -144,7 +156,13 @@ const App: React.FC = () => {
               {chartData.sparklineChildren.reduce((a, b) => a + b, 0).toLocaleString()}
             </p>
             <ApexCharts
-              options={{ chart: { type: "line", sparkline: { enabled: true } }, stroke: { curve: "smooth" }, colors: ['#3B82F6'] }}
+              options={{ chart: { type: "line", sparkline: { enabled: true } },tooltip:{
+                y:{
+                    formatter:(val)=>{
+                        return `$${val}`
+                    }
+                }
+            }, stroke: { curve: "smooth" }, colors: ['#3B82F6'] }}
               series={[{ data: chartData.sparklineChildren }]}
               type="line"
               height={100}
