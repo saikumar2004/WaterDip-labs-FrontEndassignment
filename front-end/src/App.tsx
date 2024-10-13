@@ -4,7 +4,7 @@ import ApexCharts from "react-apexcharts";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const App: React.FC = () => {
+const App =() => {
   const [startDate, setStartDate] = useState<Date | null>(new Date("2015-07-01"));
   const [endDate, setEndDate] = useState<Date | null>(new Date("2015-07-10"));
   const [data, setData] = useState<any[]>([]);
