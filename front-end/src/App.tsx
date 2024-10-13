@@ -74,95 +74,95 @@ const App: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>Hotel Booking Dashboard</h1>
-      <div>
-        <label>Start Date: </label>
+    <div style={{ backgroundColor: "#121212", color: "#ffffff", padding: "20px", minHeight: "100vh" }}>
+      <h1 style={{ color: "#4CAF50" }}>Hotel Booking Dashboard</h1>
+      <div style={{ marginBottom: "20px" }}>
+        <label style={{ marginRight: "10px" }}>Start Date: </label>
         <DatePicker 
           selected={startDate} 
           onChange={(date: Date | null) => date && setStartDate(date)} 
+          className="date-picker"
+          style={{ color: "#000" }}
         />
 
-        <label>End Date: </label>
+        <label style={{ marginLeft: "20px", marginRight: "10px" }}>End Date: </label>
         <DatePicker 
           selected={endDate} 
           onChange={(date: Date | null) => date && setEndDate(date)} 
+          className="date-picker"
+          style={{ color: "#000" }}
         />
       </div>
 
       <div>
-        <h1>Time Series Chart</h1>
+        <h2 style={{ color: "#FF9800" }}>Time Series Chart</h2>
         <ApexCharts
           options={{
             theme: { mode: 'dark' },
-            tooltip:{
-              followCursor:true
-            },
-            chart: { id: "time-series-chart" },
-            xaxis: { type: "datetime", title: { text: 'Date', style: { color: '#0f0' } } },
-            yaxis: { title: { text: 'Numbers of visitors', style: { color: '#0f0' } } },
+            tooltip: { followCursor: true },
+            chart: { id: "time-series-chart", background: "#1e1e1e" },
+            xaxis: { type: "datetime", title: { text: 'Date', style: { color: '#FF9800' } } },
+            yaxis: { title: { text: 'Number of Visitors', style: { color: '#FF9800' } } },
             stroke: { curve: "smooth" },
+            colors: ['#00E396'],
           }}
           series={[{ data: chartData.timeSeries }]}
           type="line"
           height={300}
         />
 
-        <h1>Column Chart</h1>
+        <h2 style={{ color: "#03A9F4" }}>Column Chart</h2>
         <ApexCharts
           options={{
             theme: { mode: 'dark' },
-            tooltip:{
-              followCursor:true
-            },
-            chart: { id: "column-chart" },
-            xaxis: { type: "category", title: { text: 'Country', style: { color: '#0f0' } } },
-            yaxis: { title: { text: 'Number of visitors per country', style: { color: '#0f0' } } },
+            tooltip: { followCursor: true },
+            chart: { id: "column-chart", background: "#1e1e1e" },
+            xaxis: { type: "category", title: { text: 'Country', style: { color: '#03A9F4' } } },
+            yaxis: { title: { text: 'Number of Visitors per Country', style: { color: '#03A9F4' } } },
             plotOptions: { bar: { horizontal: false } },
+            colors: ['#FF4560'],
           }}
           series={[{ data: chartData.columnChart }]}
           type="bar"
           height={300}
         />
 
-        <h1>Sparkline Charts</h1>
+        <h2 style={{ color: "#FFEB3B" }}>Sparkline Charts</h2>
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-          
-          <div style={{ width: '45%', backgroundColor: '#fff', padding: '20px', borderRadius: '8px' }}>
-          <h3>Sparkline Charts for Adults</h3>
-            <h3>Total Value (Adults)</h3>
-            <p style={{ fontSize: '24px', fontWeight: 'bold' }}>
+          <div style={{ width: '45%', backgroundColor: '#212121', padding: '20px', borderRadius: '8px' }}>
+            <h3 style={{ color: "#8BC34A" }}>Sparkline Chart for Adults</h3>
+            <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#8BC34A' }}>
               {chartData.sparklineAdults.reduce((a, b) => a + b, 0).toLocaleString()}
             </p>
             <ApexCharts
-              options={{ chart: { type: "line", sparkline: { enabled: true } }, tooltip:{
-                y:{
-                    formatter:(val)=>{
-                        return `$${val}`
-                    }
-                }
-            },stroke: { curve: "smooth" }, colors: ['#3B82F6'] }}
+              options={{
+                chart: { type: "line", sparkline: { enabled: true } },
+                tooltip: {
+                  y: { formatter: (val) => `${val}` }
+                },
+                stroke: { curve: "smooth" },
+                colors: ['#00E396'],
+              }}
               series={[{ data: chartData.sparklineAdults }]}
               type="line"
               height={100}
             />
           </div>
 
-         
-          <div style={{ width: '45%', backgroundColor: '#fff', padding: '20px', borderRadius: '8px' }}>
-          <h3>Sparkline Charts for Childers</h3>
-            <h3>Total Value (Children)</h3>
-            <p style={{ fontSize: '24px', fontWeight: 'bold' }}>
+          <div style={{ width: '45%', backgroundColor: '#212121', padding: '20px', borderRadius: '8px' }}>
+            <h3 style={{ color: "#FF5722" }}>Sparkline Chart for Children</h3>
+            <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#FF5722' }}>
               {chartData.sparklineChildren.reduce((a, b) => a + b, 0).toLocaleString()}
             </p>
             <ApexCharts
-              options={{ chart: { type: "line", sparkline: { enabled: true } },tooltip:{
-                y:{
-                    formatter:(val)=>{
-                        return `$${val}`
-                    }
-                }
-            }, stroke: { curve: "smooth" }, colors: ['#3B82F6'] }}
+              options={{
+                chart: { type: "line", sparkline: { enabled: true } },
+                tooltip: {
+                  y: { formatter: (val) => `${val}` }
+                },
+                stroke: { curve: "smooth" },
+                colors: ['#FF4560'],
+              }}
               series={[{ data: chartData.sparklineChildren }]}
               type="line"
               height={100}
