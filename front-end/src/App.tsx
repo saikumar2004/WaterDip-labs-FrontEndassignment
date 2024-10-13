@@ -30,23 +30,22 @@ const App: React.FC = () => {
         });
     }
   }, [startDate, endDate]);
+
   type ChartSeries = { x: string; y: number }[];
 
-type ChartData = {
-  timeSeries: ChartSeries;
-  columnChart: ChartSeries;
-  sparklineAdults: number[];
-  sparklineChildren: number[];
-};
+  type ChartData = {
+    timeSeries: ChartSeries;
+    columnChart: ChartSeries;
+    sparklineAdults: number[];
+    sparklineChildren: number[];
+  };
 
   const processChartData = (data: any[]) => {
-    
     const timeSeriesData = data.map((booking) => ({
       x: `${booking.arrival_date_year}-${booking.arrival_date_month}-${booking.arrival_date_day_of_month}`,
       y: Number(booking.adults) + Number(booking.children) + Number(booking.babies),
     }));
 
-    
     const columnChartData = data.reduce((acc: any, booking: any) => {
       const country = booking.country;
       const totalVisitors = Number(booking.adults) + Number(booking.children) + Number(booking.babies);
@@ -63,7 +62,6 @@ type ChartData = {
       y: columnChartData[country],
     }));
 
-    
     const sparklineAdults = data.map((booking) => Number(booking.adults));
     const sparklineChildren = data.map((booking) => Number(booking.children));
 
@@ -81,36 +79,39 @@ type ChartData = {
       <div>
         <label>Start Date: </label>
         <DatePicker 
-  selected={startDate} 
-  onChange={(date: Date | null) => date && setStartDate(date)} 
-/>
-
-
+          selected={startDate} 
+          onChange={(date: Date | null) => date && setStartDate(date)} 
+        />
 
         <label>End Date: </label>
         <DatePicker 
-  selected={endDate} 
-  onChange={(date: Date | null) => date && setEndDate(date)} 
-/>
+          selected={endDate} 
+          onChange={(date: Date | null) => date && setEndDate(date)} 
+        />
       </div>
 
       <div>
-      <h1>Time Series Chart </h1>
+        <h1>Time Series Chart</h1>
         <ApexCharts
           options={{
+            theme: { mode: 'dark' },
             chart: { id: "time-series-chart" },
-            xaxis: { type: "datetime" },
+            xaxis: { type: "datetime", title: { text: 'Date', style: { color: '#0f0' } } },
+            yaxis: { title: { text: 'Numbers of visitors', style: { color: '#0f0' } } },
+            stroke: { curve: "smooth" },
           }}
           series={[{ data: chartData.timeSeries }]}
           type="line"
           height={300}
         />
 
-<h1>Column Chart </h1>
+        <h1>Column Chart</h1>
         <ApexCharts
           options={{
+            theme: { mode: 'dark' },
             chart: { id: "column-chart" },
-            xaxis: { type: "category" },
+            xaxis: { type: "category", title: { text: 'Country', style: { color: '#0f0' } } },
+            yaxis: { title: { text: 'Number of visitors per country', style: { color: '#0f0' } } },
             plotOptions: { bar: { horizontal: false } },
           }}
           series={[{ data: chartData.columnChart }]}
@@ -118,22 +119,37 @@ type ChartData = {
           height={300}
         />
 
-<h1>Sparkline Charts </h1>
-        <div>
-        <h3>Sparkline Charts for Adults</h3>
-          <ApexCharts
-            options={{ chart: { type: "line" }, stroke: { curve: "smooth" } }}
-            series={[{ data: chartData.sparklineAdults }]}
-            type="line"
-            height={100}
-          />
-           <h3>Sparkline Charts for Childers</h3>
-          <ApexCharts
-            options={{ chart: { type: "line" }, stroke: { curve: "smooth" } }}
-            series={[{ data: chartData.sparklineChildren }]}
-            type="line"
-            height={100}
-          />
+        <h1>Sparkline Charts</h1>
+        <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+          
+          <div style={{ width: '45%', backgroundColor: '#fff', padding: '20px', borderRadius: '8px' }}>
+          <h3>Sparkline Charts for Adults</h3>
+            <h3>Total Value (Adults)</h3>
+            <p style={{ fontSize: '24px', fontWeight: 'bold' }}>
+              {chartData.sparklineAdults.reduce((a, b) => a + b, 0).toLocaleString()}
+            </p>
+            <ApexCharts
+              options={{ chart: { type: "line", sparkline: { enabled: true } }, stroke: { curve: "smooth" }, colors: ['#3B82F6'] }}
+              series={[{ data: chartData.sparklineAdults }]}
+              type="line"
+              height={100}
+            />
+          </div>
+
+         
+          <div style={{ width: '45%', backgroundColor: '#fff', padding: '20px', borderRadius: '8px' }}>
+          <h3>Sparkline Charts for Childers</h3>
+            <h3>Total Value (Children)</h3>
+            <p style={{ fontSize: '24px', fontWeight: 'bold' }}>
+              {chartData.sparklineChildren.reduce((a, b) => a + b, 0).toLocaleString()}
+            </p>
+            <ApexCharts
+              options={{ chart: { type: "line", sparkline: { enabled: true } }, stroke: { curve: "smooth" }, colors: ['#3B82F6'] }}
+              series={[{ data: chartData.sparklineChildren }]}
+              type="line"
+              height={100}
+            />
+          </div>
         </div>
       </div>
     </div>
